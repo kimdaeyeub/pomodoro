@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -55,11 +58,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
-                    color: Colors.grey.shade600,
+                    color: Colors.grey.shade800,
                   ),
                 ),
                 const SizedBox(
-                  height: 15,
+                  height: 25,
                 ),
                 // 오늘 할 일 진행도
                 FractionallySizedBox(
@@ -67,7 +70,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Container(
                     clipBehavior: Clip.hardEdge,
                     decoration: BoxDecoration(
-                      color: Colors.blue.shade900,
                       borderRadius: BorderRadius.circular(
                         20,
                       ),
@@ -75,88 +77,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            top: 10,
-                            left: 20,
-                            right: 20,
-                          ),
-                          child: Row(
-                            children: [
-                              GestureDetector(
-                                onTap: _onTapSomeDay,
-                                child: AnimatedContainer(
-                                  duration: const Duration(
-                                    milliseconds: 300,
-                                  ),
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 15,
-                                    vertical: 10,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: _tagNumber == 0
-                                        ? Colors.white
-                                        : Colors.grey.shade300,
-                                    borderRadius: const BorderRadius.only(
-                                      topLeft: Radius.circular(10),
-                                      topRight: Radius.circular(10),
-                                    ),
-                                  ),
-                                  child: Text(
-                                    "오늘 할 일",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18,
-                                      color: _tagNumber == 0
-                                          ? Colors.black
-                                          : Colors.grey.shade400,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              GestureDetector(
-                                onTap: _onTapPomodoro,
-                                child: AnimatedContainer(
-                                  duration: const Duration(milliseconds: 300),
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 15,
-                                    vertical: 10,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: _tagNumber == 1
-                                        ? Colors.white
-                                        : Colors.grey.shade300,
-                                    borderRadius: const BorderRadius.only(
-                                      topLeft: Radius.circular(10),
-                                      topRight: Radius.circular(10),
-                                    ),
-                                  ),
-                                  child: Text(
-                                    "내일 할 일",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18,
-                                      color: _tagNumber == 1
-                                          ? Colors.black
-                                          : Colors.grey.shade200,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
                         Container(
                           color: Colors.white,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 25,
-                            vertical: 25,
+                          padding: const EdgeInsets.only(
+                            left: 25,
+                            right: 25,
+                            top: 25,
+                            bottom: 15,
                           ),
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -219,6 +149,29 @@ class _HomeScreenState extends State<HomeScreen> {
                                   )
                                 ],
                               ),
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    "자세히 보기",
+                                    style: TextStyle(
+                                      color: Colors.grey.shade400,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 4,
+                                  ),
+                                  FaIcon(
+                                    FontAwesomeIcons.chevronRight,
+                                    size: 10,
+                                    color: Colors.grey.shade400,
+                                  ),
+                                ],
+                              ),
                             ],
                           ),
                         ),
@@ -228,6 +181,92 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 const SizedBox(
                   height: 30,
+                ),
+                Text(
+                  "활동시간 측정",
+                  style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey.shade800,
+                  ),
+                ),
+                const SizedBox(
+                  height: 25,
+                ),
+                FractionallySizedBox(
+                  widthFactor: 1,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 30,
+                      vertical: 20,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          children: [
+                            CustomPaint(
+                              size: const Size(60, 60),
+                              painter: CircularProgress(),
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            Text(
+                              "Coding",
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.grey.shade600,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            CustomPaint(
+                              size: const Size(60, 60),
+                              painter: CircularProgress(),
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            Text(
+                              "Coding",
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.grey.shade600,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            CustomPaint(
+                              size: const Size(60, 60),
+                              painter: CircularProgress(),
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            Text(
+                              "Coding",
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.grey.shade600,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
                 //참여중인 챌린지
                 Text(
@@ -283,7 +322,7 @@ class BarPainter extends CustomPainter {
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
     final fillLine = Paint()
-      ..color = Colors.deepPurple.shade400
+      ..color = Colors.red.shade800
       ..strokeWidth = 10
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
@@ -306,7 +345,7 @@ class BarPainterForBook extends CustomPainter {
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
     final fillLine = Paint()
-      ..color = Colors.red.shade400
+      ..color = Colors.green.shade800
       ..strokeWidth = 10
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
@@ -329,12 +368,37 @@ class BarPainterForExercise extends CustomPainter {
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
     final fillLine = Paint()
-      ..color = Colors.green.shade400
+      ..color = Colors.indigo.shade800
       ..strokeWidth = 10
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
     canvas.drawLine(const Offset(0, 5), Offset(size.width, 5), bgLine);
     canvas.drawLine(const Offset(0, 5), Offset(size.width - 20, 5), fillLine);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
+  }
+}
+
+class CircularProgress extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final circlePaint = Paint()
+      ..color = Colors.grey.shade300
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 7;
+    canvas.drawCircle(
+        Offset(size.width / 2, size.height / 2), size.width / 2, circlePaint);
+
+    final arcRect = Rect.fromLTWH(0, 0, size.width, size.height);
+    final arcPaint = Paint()
+      ..color = Colors.deepPurple
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 7
+      ..strokeCap = StrokeCap.round;
+    canvas.drawArc(arcRect, 1 / 2 * pi * -1, 3 / 2 * pi, false, arcPaint);
   }
 
   @override
