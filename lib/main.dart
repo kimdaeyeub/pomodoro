@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.grey.shade200,
         appBarTheme: AppBarTheme(
           backgroundColor: Colors.grey.shade200,
+          foregroundColor: Colors.black,
           elevation: 0,
         ),
       ),

@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pomodoro_app/features/timer/widgets/add_timer_tabs.dart';
 
 class MainTimerScreen extends StatefulWidget {
   const MainTimerScreen({super.key});
@@ -30,36 +32,59 @@ class _MainTimerScreenState extends State<MainTimerScreen>
     });
   }
 
+  final List<String> _tabs = [
+    "hell",
+    "hello",
+  ];
+
+  void _onTapAddTab() {
+    showModalBottomSheet(
+      backgroundColor: Colors.transparent,
+      context: context,
+      isScrollControlled: true,
+      builder: (context) => Container(
+        height: 850,
+        clipBehavior: Clip.hardEdge,
+        decoration: const BoxDecoration(
+          color: Colors.transparent,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(13),
+            topRight: Radius.circular(13),
+          ),
+        ),
+        child: const AddTimerTabs(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return DefaultTabController(
-      length: 2,
+      length: _tabs.length,
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        floatingActionButton: GestureDetector(
+          onTap: _onTapAddTab,
+          child: Container(
+            padding: const EdgeInsets.all(
+              10,
+            ),
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.black,
+            ),
+            child: const FaIcon(
+              FontAwesomeIcons.plus,
+              color: Colors.white,
+            ),
+          ),
+        ),
         appBar: AppBar(
           title: const Text(
             "hell",
             style: TextStyle(
               color: Colors.black,
-            ),
-          ),
-          bottom: TabBar(
-            tabs: const [
-              Tab(
-                text: "타이머",
-              ),
-              Tab(
-                text: "일정",
-              ),
-            ],
-            labelColor: Colors.black,
-            indicatorColor: Colors.black,
-            indicatorSize: TabBarIndicatorSize.label,
-            indicatorWeight: 3,
-            labelStyle: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.grey.shade900,
-              fontSize: 17,
             ),
           ),
         ),
