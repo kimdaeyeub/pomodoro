@@ -53,13 +53,38 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   height: 30,
                 ),
-                Text(
-                  "오늘 할 일",
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.grey.shade800,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "오늘 할 일",
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey.shade800,
+                      ),
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          "자세히 보기",
+                          style: TextStyle(
+                            color: Colors.grey.shade400,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 4,
+                        ),
+                        FaIcon(
+                          FontAwesomeIcons.chevronRight,
+                          size: 10,
+                          color: Colors.grey.shade400,
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
                 const SizedBox(
                   height: 25,
@@ -79,11 +104,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         Container(
                           color: Colors.white,
-                          padding: const EdgeInsets.only(
-                            left: 25,
-                            right: 25,
-                            top: 25,
-                            bottom: 15,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 25,
+                            vertical: 25,
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
@@ -149,29 +172,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                   )
                                 ],
                               ),
-                              const SizedBox(
-                                height: 15,
-                              ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    "자세히 보기",
-                                    style: TextStyle(
-                                      color: Colors.grey.shade400,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 4,
-                                  ),
-                                  FaIcon(
-                                    FontAwesomeIcons.chevronRight,
-                                    size: 10,
-                                    color: Colors.grey.shade400,
-                                  ),
-                                ],
-                              ),
                             ],
                           ),
                         ),
@@ -182,13 +182,38 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   height: 30,
                 ),
-                Text(
-                  "활동시간 측정",
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.grey.shade800,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "활동시간 측정",
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey.shade800,
+                      ),
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          "자세히 보기",
+                          style: TextStyle(
+                            color: Colors.grey.shade400,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 4,
+                        ),
+                        FaIcon(
+                          FontAwesomeIcons.chevronRight,
+                          size: 10,
+                          color: Colors.grey.shade400,
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
                 const SizedBox(
                   height: 25,
@@ -207,66 +232,32 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Column(
-                          children: [
-                            CustomPaint(
-                              size: const Size(60, 60),
-                              painter: CircularProgress(),
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            Text(
-                              "Coding",
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.grey.shade600,
-                                fontWeight: FontWeight.w600,
+                        for (var i = 0; i < 3; i++)
+                          Column(
+                            children: [
+                              CustomPaint(
+                                size: const Size(55, 55),
+                                painter: CircularProgress(),
                               ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            CustomPaint(
-                              size: const Size(60, 60),
-                              painter: CircularProgress(),
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            Text(
-                              "Coding",
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.grey.shade600,
-                                fontWeight: FontWeight.w600,
+                              const SizedBox(
+                                height: 15,
                               ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            CustomPaint(
-                              size: const Size(60, 60),
-                              painter: CircularProgress(),
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            Text(
-                              "Coding",
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.grey.shade600,
-                                fontWeight: FontWeight.w600,
+                              Text(
+                                "Coding",
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.grey.shade600,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
+                            ],
+                          ),
                       ],
                     ),
                   ),
+                ),
+                const SizedBox(
+                  height: 30,
                 ),
                 //참여중인 챌린지
                 Text(
@@ -394,7 +385,7 @@ class CircularProgress extends CustomPainter {
 
     final arcRect = Rect.fromLTWH(0, 0, size.width, size.height);
     final arcPaint = Paint()
-      ..color = Colors.deepPurple
+      ..color = Colors.pink
       ..style = PaintingStyle.stroke
       ..strokeWidth = 7
       ..strokeCap = StrokeCap.round;

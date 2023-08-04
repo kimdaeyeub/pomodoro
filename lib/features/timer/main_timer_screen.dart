@@ -33,41 +33,63 @@ class _MainTimerScreenState extends State<MainTimerScreen>
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "timer",
-          style: TextStyle(
-            color: Colors.black,
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            "hell",
+            style: TextStyle(
+              color: Colors.black,
+            ),
+          ),
+          bottom: TabBar(
+            tabs: const [
+              Tab(
+                text: "타이머",
+              ),
+              Tab(
+                text: "일정",
+              ),
+            ],
+            labelColor: Colors.black,
+            indicatorColor: Colors.black,
+            indicatorSize: TabBarIndicatorSize.label,
+            indicatorWeight: 3,
+            labelStyle: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.grey.shade900,
+              fontSize: 17,
+            ),
           ),
         ),
-      ),
-      body: Column(
-        children: [
-          const SizedBox(
-            height: 60,
-          ),
-          Container(
-            alignment: Alignment.center,
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                CustomPaint(
-                  size: Size(size.width - 60, 400),
-                  painter: TimerPainter(),
-                ),
-                GestureDetector(
-                  onTap: _togglePlay,
-                  child: AnimatedIcon(
-                    size: 70,
-                    icon: AnimatedIcons.pause_play,
-                    progress: _playButtonAnimation,
-                  ),
-                )
-              ],
+        body: Column(
+          children: [
+            const SizedBox(
+              height: 60,
             ),
-          )
-        ],
+            Container(
+              alignment: Alignment.center,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  CustomPaint(
+                    size: Size(size.width - 60, 400),
+                    painter: TimerPainter(),
+                  ),
+                  GestureDetector(
+                    onTap: _togglePlay,
+                    child: AnimatedIcon(
+                      size: 70,
+                      icon: AnimatedIcons.pause_play,
+                      progress: _playButtonAnimation,
+                    ),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
