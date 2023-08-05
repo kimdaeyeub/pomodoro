@@ -9,8 +9,7 @@ class AddTimerTabs extends StatefulWidget {
   State<AddTimerTabs> createState() => _AddTimerTabsState();
 }
 
-class _AddTimerTabsState extends State<AddTimerTabs>
-    with SingleTickerProviderStateMixin {
+class _AddTimerTabsState extends State<AddTimerTabs> {
   final List<DayInWeek> _days = [
     DayInWeek("월", dayKey: "monday"),
     DayInWeek("화", dayKey: "tuesday"),
@@ -21,22 +20,43 @@ class _AddTimerTabsState extends State<AddTimerTabs>
     DayInWeek("일", dayKey: "sunday"),
   ];
 
-  late final AnimationController _animationController = AnimationController(
-    vsync: this,
-    duration: const Duration(
-      milliseconds: 300,
-    ),
-  );
-
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _desController = TextEditingController();
+  String _hours = "12";
+  String _minutes = "00";
 
-  late final Animation<Offset> _position =
-      Tween<Offset>(begin: const Offset(0, 3), end: Offset.zero)
-          .animate(_animationController);
-
-  void _timePicker() {
-    _animationController.forward();
+  void _timeStartPicker() {
+    showCupertinoModalPopup(
+      context: context,
+      builder: (context) => Container(
+        height: 300,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+        ),
+        child: CupertinoTimerPicker(
+          mode: CupertinoTimerPickerMode.hm,
+          onTimerDurationChanged: (Duration value) {
+            setState(() {
+              if (value.inHours < 10) {
+                _hours = "0${value.inHours}";
+              } else {
+                _hours = value.inHours.toString();
+              }
+              if (value.inMinutes > 60) {
+                final minutes = (value.inMinutes % 60);
+                if (minutes < 10) {
+                  _minutes = "0$minutes";
+                } else {
+                  _minutes = minutes.toString();
+                }
+              } else {
+                _minutes = value.inMinutes.toString();
+              }
+            });
+          },
+        ),
+      ),
+    );
   }
 
   @override
@@ -59,69 +79,162 @@ class _AddTimerTabsState extends State<AddTimerTabs>
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SelectWeekDays(
-                width: 300,
-                onSelect: (value) {
-                  print(value);
-                },
-                days: _days,
-                fontWeight: FontWeight.bold,
-                backgroundColor: Colors.transparent,
-                unSelectedDayTextColor: Colors.black,
-                border: false,
-                selectedDayTextColor: Colors.white,
-                daysFillColor: Colors.black,
-              ),
               const SizedBox(
-                height: 10,
+                height: 30,
               ),
-              TextField(
-                controller: _titleController,
-                decoration: InputDecoration(
-                  hintText: "이름",
-                  fillColor: Colors.grey.shade300,
-                  filled: true,
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                    borderRadius: BorderRadius.circular(
-                      10,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "반복 횟수",
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey.shade400,
                     ),
                   ),
-                ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextField(
+                    controller: _titleController,
+                    decoration: InputDecoration(
+                      fillColor: Colors.grey.shade300,
+                      filled: true,
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(
+                          10,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(
                 height: 20,
               ),
-              TextField(
-                maxLines: 5,
-                decoration: InputDecoration(
-                  hintText: "상세 설명",
-                  fillColor: Colors.grey.shade300,
-                  filled: true,
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                    borderRadius: BorderRadius.circular(
-                      10,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "반복 횟수",
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey.shade400,
                     ),
                   ),
-                ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextField(
+                    maxLines: 5,
+                    decoration: InputDecoration(
+                      fillColor: Colors.grey.shade300,
+                      filled: true,
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(
+                          10,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              ElevatedButton(
-                onPressed: _timePicker,
-                child: const Icon(
-                  Icons.plus_one,
-                ),
+              const SizedBox(
+                height: 20,
               ),
-              SlideTransition(
-                position: _position,
-                child: CupertinoTimerPicker(
-                  onTimerDurationChanged: (value) {},
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    "반복 횟수",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey.shade400,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 15,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade300,
+                        borderRadius: BorderRadius.circular(
+                          10,
+                        ),
+                      ),
+                      child: const Text("3"),
+                    ),
+                  )
+                ],
+              ),
+              GestureDetector(
+                onTap: _timeStartPicker,
+                child: TimeCard(
+                  time: "$_hours:$_minutes",
                 ),
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class TimeCard extends StatelessWidget {
+  final String time;
+  const TimeCard({
+    super.key,
+    required this.time,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "타이머 시간",
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.grey.shade400,
+          ),
+        ),
+        const SizedBox(
+          width: 20,
+        ),
+        FractionallySizedBox(
+          widthFactor: 1,
+          child: Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 15,
+            ),
+            decoration: BoxDecoration(
+              color: Colors.grey.shade300,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Text(
+              time,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
