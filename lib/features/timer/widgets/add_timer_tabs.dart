@@ -1,7 +1,7 @@
-import 'package:day_picker/day_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:pomodoro_app/features/timer/widgets/time_card.dart';
 
 class AddTimerTabs extends StatefulWidget {
   const AddTimerTabs({super.key});
@@ -11,15 +11,11 @@ class AddTimerTabs extends StatefulWidget {
 }
 
 class _AddTimerTabsState extends State<AddTimerTabs> {
-  final List<DayInWeek> _days = [
-    DayInWeek("월", dayKey: "monday"),
-    DayInWeek("화", dayKey: "tuesday"),
-    DayInWeek("수", dayKey: "wednesday"),
-    DayInWeek("목", dayKey: "thursday"),
-    DayInWeek("금", dayKey: "friday"),
-    DayInWeek("토", dayKey: "saturday"),
-    DayInWeek("일", dayKey: "sunday"),
-  ];
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _desController = TextEditingController();
+  String _hours = "12";
+  String _minutes = "00";
+  Color _color = const Color(0xffffffff);
 
   void _showColorPicker() {
     showDialog(
@@ -32,7 +28,9 @@ class _AddTimerTabsState extends State<AddTimerTabs> {
               paletteType: PaletteType.hueWheel,
               pickerColor: Colors.white,
               onColorChanged: (color) {
-                print(color);
+                setState(() {
+                  _color = color;
+                });
               },
             ),
           ],
@@ -41,19 +39,14 @@ class _AddTimerTabsState extends State<AddTimerTabs> {
     );
   }
 
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _desController = TextEditingController();
-  String _hours = "12";
-  String _minutes = "00";
-
   void _timeStartPicker() {
     showCupertinoModalPopup(
       context: context,
       builder: (context) => Container(
-        height: 300,
         decoration: const BoxDecoration(
           color: Colors.white,
         ),
+        height: 300,
         child: CupertinoTimerPicker(
           mode: CupertinoTimerPickerMode.hm,
           onTimerDurationChanged: (Duration value) {
@@ -149,6 +142,7 @@ class _AddTimerTabsState extends State<AddTimerTabs> {
                   height: 10,
                 ),
                 TextField(
+                  controller: _desController,
                   maxLines: 5,
                   decoration: InputDecoration(
                     fillColor: Colors.grey.shade300,
@@ -229,66 +223,61 @@ class _AddTimerTabsState extends State<AddTimerTabs> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
+                    Text(
+                      "타이머 색상",
+                      style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey.shade400,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 15,
+                    ),
                     GestureDetector(
                       onTap: _showColorPicker,
                       child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 15,
-                        ),
+                        width: 30,
+                        height: 30,
                         decoration: BoxDecoration(
-                          color: Colors.grey.shade300,
-                          borderRadius: BorderRadius.circular(
-                            10,
+                          color: _color,
+                          border: Border.all(
+                            color: Colors.grey.shade400,
+                            width: 2,
                           ),
-                        ),
-                        child: Text(
-                          "타이머 색상",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17,
-                            color: Colors.grey.shade500,
+                          borderRadius: BorderRadius.circular(
+                            5,
                           ),
                         ),
                       ),
-                    )
+                    ),
                   ],
+                ),
+                const SizedBox(
+                  height: 100,
+                ),
+                FractionallySizedBox(
+                  widthFactor: 1,
+                  child: Container(
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 20,
+                    ),
+                    decoration: const BoxDecoration(
+                      color: Color(0xff1abc9c),
+                    ),
+                    child: const Text(
+                      "등록",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
                 )
               ],
             ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class TimeCard extends StatelessWidget {
-  final String time;
-  const TimeCard({
-    super.key,
-    required this.time,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return FractionallySizedBox(
-      widthFactor: 1,
-      child: Container(
-        alignment: Alignment.centerRight,
-        padding: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 15,
-        ),
-        decoration: BoxDecoration(
-          color: Colors.grey.shade300,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Text(
-          time,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
           ),
         ),
       ),

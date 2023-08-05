@@ -43,7 +43,7 @@ class _MainTimerScreenState extends State<MainTimerScreen>
       context: context,
       isScrollControlled: true,
       builder: (context) => Container(
-        height: 850,
+        height: MediaQuery.of(context).size.height * 0.8,
         clipBehavior: Clip.hardEdge,
         decoration: const BoxDecoration(
           color: Colors.transparent,
