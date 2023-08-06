@@ -39,6 +39,7 @@ class _MainTimerScreenState extends State<MainTimerScreen>
 
   void _onTapAddTab() {
     showModalBottomSheet(
+      isDismissible: true,
       backgroundColor: Colors.transparent,
       context: context,
       isScrollControlled: true,

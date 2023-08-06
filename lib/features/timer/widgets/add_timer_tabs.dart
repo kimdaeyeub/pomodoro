@@ -13,9 +13,11 @@ class AddTimerTabs extends StatefulWidget {
 class _AddTimerTabsState extends State<AddTimerTabs> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _desController = TextEditingController();
+  final TextEditingController _countController = TextEditingController();
   String _hours = "12";
   String _minutes = "00";
   Color _color = const Color(0xffffffff);
+  Map<String, dynamic> _formData = {};
 
   void _showColorPicker() {
     showDialog(
@@ -56,7 +58,7 @@ class _AddTimerTabsState extends State<AddTimerTabs> {
               } else {
                 _hours = value.inHours.toString();
               }
-              if (value.inMinutes > 60) {
+              if (value.inMinutes >= 60) {
                 final minutes = (value.inMinutes % 60);
                 if (minutes < 10) {
                   _minutes = "0$minutes";
@@ -64,7 +66,11 @@ class _AddTimerTabsState extends State<AddTimerTabs> {
                   _minutes = minutes.toString();
                 }
               } else {
-                _minutes = value.inMinutes.toString();
+                if (value.inMinutes < 10) {
+                  _minutes = "0${value.inMinutes}";
+                } else {
+                  _minutes = value.inMinutes.toString();
+                }
               }
             });
           },
@@ -77,12 +83,24 @@ class _AddTimerTabsState extends State<AddTimerTabs> {
     FocusScope.of(context).unfocus();
   }
 
+  void _onSubmit() {
+    _formData = {
+      "title": _titleController.text,
+      "description": _desController.text,
+      "timer": "$_hours:$_minutes",
+      "color": "$_color",
+      "repeat": _countController.text,
+    };
+    Navigator.pop(context);
+    print(_formData);
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: _onTapForUnFocus,
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
+        // resizeToAvoidBottomInset: false,
         appBar: AppBar(
           automaticallyImplyLeading: false,
           title: const Text(
@@ -193,24 +211,45 @@ class _AddTimerTabsState extends State<AddTimerTabs> {
                     const SizedBox(
                       width: 15,
                     ),
+                    // GestureDetector(
+                    //   onTap: _onTapIntervalRepeat,
+                    //   child: Expanded(
+                    //     child: Container(
+                    //       alignment: Alignment.centerRight,
+                    //       padding: const EdgeInsets.symmetric(
+                    //         horizontal: 20,
+                    //         vertical: 15,
+                    //       ),
+                    //       decoration: BoxDecoration(
+                    //         color: Colors.grey.shade300,
+                    //         borderRadius: BorderRadius.circular(
+                    //           10,
+                    //         ),
+                    //       ),
+                    //       child: const Text(
+                    //         "3",
+                    //         style: TextStyle(
+                    //           fontSize: 18,
+                    //           fontWeight: FontWeight.w700,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // )
                     Expanded(
-                      child: Container(
-                        alignment: Alignment.centerRight,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 15,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade300,
-                          borderRadius: BorderRadius.circular(
-                            10,
-                          ),
-                        ),
-                        child: const Text(
-                          "3",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
+                      child: TextField(
+                        textAlign: TextAlign.end,
+                        keyboardType: TextInputType.number,
+                        controller: _countController,
+                        decoration: InputDecoration(
+                          isDense: true,
+                          fillColor: Colors.grey.shade300,
+                          filled: true,
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius: BorderRadius.circular(
+                              10,
+                            ),
                           ),
                         ),
                       ),
@@ -256,26 +295,32 @@ class _AddTimerTabsState extends State<AddTimerTabs> {
                 const SizedBox(
                   height: 100,
                 ),
-                FractionallySizedBox(
-                  widthFactor: 1,
-                  child: Container(
-                    alignment: Alignment.center,
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 20,
-                    ),
-                    decoration: const BoxDecoration(
-                      color: Color(0xff1abc9c),
-                    ),
-                    child: const Text(
-                      "등록",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
+                GestureDetector(
+                  onTap: _onSubmit,
+                  child: FractionallySizedBox(
+                    widthFactor: 1,
+                    child: Container(
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 20,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      child: const Text(
+                        "등록",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                   ),
-                )
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
               ],
             ),
           ),
