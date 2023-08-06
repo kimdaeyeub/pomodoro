@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pomodoro_app/features/home_screen.dart';
 import 'package:pomodoro_app/features/timer/main_timer_screen.dart';
+import 'package:pomodoro_app/features/timer/timers_screen.dart';
 
 class MainNavigation extends StatefulWidget {
   const MainNavigation({super.key});
@@ -11,6 +12,7 @@ class MainNavigation extends StatefulWidget {
 }
 
 class _MainNavigationState extends State<MainNavigation> {
+  final GlobalKey<NavigatorState> _timerScreenKey = GlobalKey<NavigatorState>();
   int _selectedIndex = 1;
 
   void _onTap(int value) {
@@ -74,7 +76,12 @@ class _MainNavigationState extends State<MainNavigation> {
           ),
           Offstage(
             offstage: _selectedIndex != 1,
-            child: const MainTimerScreen(),
+            child: Navigator(
+              key: _timerScreenKey,
+              onGenerateRoute: (settings) => MaterialPageRoute(
+                builder: (context) => const TimersScreen(),
+              ),
+            ),
           ),
           Offstage(
             offstage: _selectedIndex != 2,
