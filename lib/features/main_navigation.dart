@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pomodoro_app/features/home_screen.dart';
-import 'package:pomodoro_app/features/timer/main_timer_screen.dart';
 import 'package:pomodoro_app/features/timer/timers_screen.dart';
 
 class MainNavigation extends StatefulWidget {
